@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Identity-Based Speaking — Why Smart People Collapse Under Pressure</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#1e1b2e;
+  --bg:#f0ebe3;
+  --text:#1e1b2e;
+  --muted:#6b6575;
+  --border:rgba(30,27,46,.11);
+  --or:#f97316;
+  --pk:#ec4899;
+  --pu:#a855f7;
+  --gr:#4ade80;
+  --grad:linear-gradient(135deg,#f97316,#ec4899,#a855f7);
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+.grid-bg{
+  background-image:
+    linear-gradient(rgba(30,27,46,.055) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(30,27,46,.055) 1px,transparent 1px);
+  background-size:30px 30px;
+}
+.header{background:var(--navy);padding:44px 0 0;overflow:hidden;position:relative;}
+.header-grid{position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(249,115,22,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(249,115,22,.04) 1px,transparent 1px);
+  background-size:30px 30px;}
+.hi{max-width:860px;margin:0 auto;padding:0 40px;}
+.eyebrow{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:14px;}
+h1{font-size:clamp(26px,4vw,40px);font-weight:800;color:#fff;line-height:1.2;margin-bottom:14px;}
+h1 .g1{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hsub{font-size:15px;color:rgba(255,255,255,.42);line-height:1.6;max-width:520px;margin-bottom:28px;}
+.tabs{display:flex;gap:3px;overflow-x:auto;scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
+  padding:11px 18px;border:1.5px solid rgba(255,255,255,.1);border-bottom:none;background:transparent;
+  color:rgba(255,255,255,.3);cursor:pointer;white-space:nowrap;border-radius:6px 6px 0 0;transition:all .2s;flex-shrink:0;}
+.tab.active{background:var(--bg);color:var(--navy);border-color:rgba(30,27,46,.14);border-bottom-color:var(--bg);}
+.wrap{max-width:860px;margin:0 auto;padding:0 40px;}
+.body{padding:40px 0 60px;}
+.page{display:none;}.page.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+.page.active .body{animation:fadeUp .3s ease;}
+.badge{display:inline-flex;align-items:center;gap:10px;margin-bottom:16px;}
+.bnum{width:30px;height:30px;border-radius:7px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Space Mono',monospace;font-size:11px;font-weight:700;color:#fff;
+  background:var(--grad);}
+.blabel{font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);}
+.stitle{font-size:clamp(20px,3vw,28px);font-weight:800;line-height:1.25;margin-bottom:8px;}
+.stitle .hl{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.ssub{font-size:15px;color:var(--muted);line-height:1.55;margin-bottom:22px;}
+.dcard{background:#fff;border-radius:12px;border:1px solid var(--border);padding:36px 24px;margin-bottom:22px;
+  display:flex;align-items:center;justify-content:center;min-height:200px;overflow:hidden;position:relative;}
+.bullets{margin-bottom:22px;}
+.bl{display:flex;align-items:flex-start;gap:12px;font-size:14px;line-height:1.65;color:var(--text);
+  padding:10px 0;border-bottom:1px solid rgba(30,27,46,.08);}
+.bl:last-child{border-bottom:none;}
+.bsq{width:8px;height:8px;border-radius:1px;flex-shrink:0;margin-top:5px;background:var(--grad);}
+.takeaway{background:var(--navy);border-radius:9px;padding:20px 22px;margin-bottom:28px;display:flex;align-items:flex-start;gap:14px;}
+.ti{font-size:18px;flex-shrink:0;margin-top:1px;}
+.tlabel{font-family:'Space Mono',monospace;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:7px;}
+.ttext{font-size:15px;font-weight:600;color:#fff;line-height:1.55;}
+.cta{background:var(--grad);border-radius:11px;padding:34px 28px;text-align:center;margin-bottom:0;}
+.cta-ey{font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:10px;}
+.cta-t{font-size:clamp(20px,3vw,26px);font-weight:800;color:#fff;margin-bottom:6px;line-height:1.2;}
+.cta-sub{font-size:13px;color:rgba(255,255,255,.7);margin-bottom:16px;}
+.cta-a{display:inline-block;background:#fff;color:var(--navy);font-weight:700;font-size:14px;padding:12px 28px;border-radius:50px;text-decoration:none;transition:opacity .2s;}
+.cta-a:hover{opacity:.9;}
+.what{border-left:3px solid #f97316;background:rgba(249,115,22,.04);padding:14px 18px;margin-bottom:26px;border-radius:0 8px 8px 0;}
+.wlabel{font-family:'Space Mono',monospace;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#f97316;margin-bottom:5px;}
+.wtext{font-size:14px;color:var(--text);line-height:1.65;}
+.ocard{background:#fff;border-radius:9px;border:1px solid var(--border);padding:16px 18px;margin-bottom:9px;cursor:pointer;
+  display:flex;align-items:center;gap:14px;transition:box-shadow .18s,transform .15s;}
+.ocard:hover{box-shadow:0 4px 14px rgba(30,27,46,.07);transform:translateY(-1px);}
+.onum{width:36px;height:36px;border-radius:7px;flex-shrink:0;background:var(--grad);
+  display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;color:#fff;}
+.otheme{font-size:15px;font-weight:700;color:var(--text);}
+.osub{font-size:13px;color:var(--muted);margin-top:2px;}
+.snav{display:flex;justify-content:space-between;align-items:center;padding-top:22px;border-top:1px solid var(--border);margin-top:8px;}
+.bback{font-size:14px;font-weight:600;color:#f97316;background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.bnext{font-size:12px;font-weight:700;background:var(--navy);color:#fff;border:none;cursor:pointer;
+  padding:10px 20px;border-radius:6px;font-family:'DM Sans',sans-serif;}
+footer{background:var(--navy);padding:32px 40px 28px;text-align:center;}
+.fcopy{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;color:rgba(255,255,255,.2);margin-bottom:6px;text-transform:uppercase;}
+.faddr{font-size:12px;color:rgba(255,255,255,.18);margin-bottom:18px;line-height:1.6;}
+
+/* Survival/Author cards */
+@keyframes survivalFlicker{0%,100%{opacity:.7}50%{opacity:.4}}
+@keyframes authorGlow{0%,100%{box-shadow:0 0 0 rgba(168,85,247,0)}50%{box-shadow:0 8px 28px rgba(168,85,247,.18)}}
+.d1-wrap{display:flex;gap:14px;width:100%;flex-wrap:wrap;}
+.d1-card{flex:1 1 200px;border-radius:11px;padding:18px 16px;position:relative;overflow:hidden;}
+.d1-surv{background:#f7f4ef;border:1.5px solid rgba(30,27,46,.12);animation:survivalFlicker 3.5s ease-in-out infinite;}
+.d1-auth{background:linear-gradient(135deg,rgba(249,115,22,.06),rgba(168,85,247,.08));border:1.5px solid #a855f7;animation:authorGlow 2.5s ease-in-out infinite;}
+.d1-tag{font-family:'Space Mono',monospace;font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;}
+.d1-quote{font-size:13px;line-height:1.75;margin-bottom:10px;}
+.d1-foot{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:1px;}
+.d1-badge{position:absolute;top:10px;right:10px;font-family:'Space Mono',monospace;font-size:8px;font-weight:700;
+  padding:3px 8px;border-radius:20px;letter-spacing:.5px;}
+
+/* Pipeline */
+.d2-wrap{width:100%;display:flex;flex-direction:column;align-items:center;gap:0;max-width:280px;margin:0 auto;}
+.d2-node{width:200px;padding:11px 0;border-radius:6px;text-align:center;
+  font-family:'Space Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
+  border:1.5px solid var(--border);background:#fff;color:var(--navy);transition:all .5s ease;}
+.d2-node.active{color:#fff;border-color:transparent;}
+.d2-conn{width:2px;height:22px;background:linear-gradient(to bottom,rgba(30,27,46,.1),rgba(30,27,46,.06));position:relative;}
+.d2-dot{width:6px;height:6px;border-radius:50%;background:var(--grad);position:absolute;left:50%;transform:translateX(-50%);animation:dotDrop 1.6s ease-in-out infinite;}
+@keyframes dotDrop{0%{top:0;opacity:0}20%{opacity:1}80%{opacity:1}100%{top:100%;opacity:0}}
+
+/* Industry scroll */
+.pill-track-wrap{overflow:hidden;width:100%;position:relative;}
+.pill-track-wrap::before,.pill-track-wrap::after{content:'';position:absolute;top:0;bottom:0;width:48px;z-index:2;}
+.pill-track-wrap::before{left:0;background:linear-gradient(90deg,#fff,transparent);}
+.pill-track-wrap::after{right:0;background:linear-gradient(-90deg,#fff,transparent);}
+.pill-track{display:flex;gap:8px;animation:scrollLeft 24s linear infinite;width:max-content;padding:6px 0;}
+@keyframes scrollLeft{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.ipill{font-family:'Space Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
+  border-radius:20px;padding:5px 12px;white-space:nowrap;
+  background:rgba(30,27,46,.05);border:1px solid rgba(30,27,46,.1);color:var(--muted);}
+
+/* Start cards */
+.start-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;width:100%;}
+.start-card{background:var(--bg);border-radius:10px;border:1px solid var(--border);padding:18px 16px;display:flex;flex-direction:column;gap:10px;}
+.start-icon{font-size:22px;}
+.start-label{font-family:'Space Mono',monospace;font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:2px;}
+.start-body{font-size:13px;color:var(--text);line-height:1.6;}
+.start-note{font-size:11px;color:var(--muted);font-style:italic;margin-top:4px;}
+</style>
+</head>
+<body class="grid-bg">
+
+<div class="header">
+  <div class="header-grid"></div>
+  <div class="hi">
+    <div class="eyebrow">Marija Meshkova — Identity Based Speaking™</div>
+    <h1>Stop surviving conversations in English and <span class="g1">speak with authority</span></h1>
+    <p class="hsub">Why grammar, vocabulary, and confidence exercises miss the real reason you go quiet when the stakes go up — and what actually changes it.</p>
+    <div class="tabs">
+      <button class="tab active" onclick="goTo('overview')">Overview</button>
+      <button class="tab" onclick="goTo('problem')">01 The Industry</button>
+      <button class="tab" onclick="goTo('why')">02 Two Operating Systems</button>
+      <button class="tab" onclick="goTo('identities')">03 The Real Problem</button>
+      <button class="tab" onclick="goTo('start')">04 Where To Start</button>
+    </div>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<div id="page-overview" class="page active">
+  <div class="wrap"><div class="body">
+    <div class="what">
+      <div class="wlabel">What is this?</div>
+      <p class="wtext">Four sections. Work through them in order. The industry and what it keeps missing. The two operating systems running your voice. Why the industry keeps failing. Then the right place to actually start.</p>
+    </div>
+    <div style="font-family:'Space Mono',monospace;font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);margin-bottom:13px;">Your guide at a glance</div>
+    <div class="ocard" onclick="goTo('problem')"><div class="onum">01</div><div><div class="otheme">The Industry</div><div class="osub">Thirty years of solving the wrong layer of the problem</div></div><div style="font-size:20px;margin-left:auto;">🔍</div></div>
+    <div class="ocard" onclick="goTo('why')"><div class="onum">02</div><div><div class="otheme">Two Operating Systems</div><div class="osub">The Thinking Brain and the Survival Brain — and what happens when pressure fires</div></div><div style="font-size:20px;margin-left:auto;">🧠</div></div>
+    <div class="ocard" onclick="goTo('identities')"><div class="onum">03</div><div><div class="otheme">The Real Problem</div><div class="osub">Why the industry keeps failing — treating the symptom, not the root</div></div><div style="font-size:20px;margin-left:auto;">🎯</div></div>
+    <div class="ocard" onclick="goTo('start')"><div class="onum">04</div><div><div class="otheme">Where To Start</div><div class="osub">Identity and nervous system — not more skills on top of the same container</div></div><div style="font-size:20px;margin-left:auto;">✦</div></div>
+    <div class="cta" style="margin-top:28px;">
+      <div class="cta-ey">Your next step</div>
+      <div class="cta-t">Join The Unmuted Voice Challenge</div>
+      <div class="cta-sub">Only $37/month · Cancel anytime</div>
+      <a href="https://www.skool.com/zenfluent-inner-circle/about" target="_blank" class="cta-a">Join Now →</a>
+    </div>
+  </div></div>
+</div>
+
+<!-- SECTION 1 — THE INDUSTRY -->
+<div id="page-problem" class="page">
+  <div class="wrap"><div class="body">
+    <div class="badge"><div class="bnum">01</div><div class="blabel">Section 01</div></div>
+    <div class="stitle">The language industry has been selling you <span class="hl">the same thing for thirty years.</span></div>
+    <div class="ssub">More vocabulary. More frameworks. More fluency drills. All of it stacked on top of a foundation nobody has looked at.</div>
+
+    <div class="dcard" style="flex-direction:column;gap:18px;padding:28px 20px;min-height:auto;">
+      <div style="font-family:'Space Mono',monospace;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);text-align:center;">What the industry keeps selling</div>
+      <div class="pill-track-wrap">
+        <div class="pill-track">
+          <span class="ipill">vocabulary expansion</span><span class="ipill">confidence exercises</span><span class="ipill">pronunciation drills</span><span class="ipill">fluency in 30 days</span><span class="ipill">communication frameworks</span><span class="ipill">positive self-talk</span><span class="ipill">accent reduction</span><span class="ipill">power posing</span><span class="ipill">filler word elimination</span><span class="ipill">mindset programs</span><span class="ipill">vocabulary expansion</span><span class="ipill">confidence exercises</span><span class="ipill">pronunciation drills</span><span class="ipill">fluency in 30 days</span><span class="ipill">communication frameworks</span><span class="ipill">positive self-talk</span><span class="ipill">accent reduction</span><span class="ipill">power posing</span><span class="ipill">filler word elimination</span><span class="ipill">mindset programs</span>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;width:100%;">
+        <div style="text-align:center;padding:14px 10px;background:var(--bg);border-radius:8px;border:1px solid var(--border);">
+          <div style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:#f97316;margin-bottom:4px;">works</div>
+          <div style="font-size:11px;color:var(--muted);">in calm moments</div>
+        </div>
+        <div style="text-align:center;padding:14px 10px;background:var(--bg);border-radius:8px;border:1px solid var(--border);">
+          <div style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:#ec4899;margin-bottom:4px;">collapses</div>
+          <div style="font-size:11px;color:var(--muted);">under real pressure</div>
+        </div>
+        <div style="text-align:center;padding:14px 10px;background:var(--bg);border-radius:8px;border:1px solid var(--border);">
+          <div style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:#a855f7;margin-bottom:4px;">always</div>
+          <div style="font-size:11px;color:var(--muted);">goes back to the same pattern</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bullets">
+      <div class="bl"><div class="bsq"></div>You've probably been through at least some of this. Maybe you improved. Maybe you felt better for a while. Then a high-stakes meeting showed up and everything collapsed back to the same pattern.</div>
+      <div class="bl"><div class="bsq"></div>The painkiller is not wrong. It just isn't a solution. It manages the symptom in calm conditions. The moment pressure arrives, the root takes over — and the root was never touched.</div>
+      <div class="bl"><div class="bsq"></div>More vocabulary, more frameworks, more confidence exercises: all water being poured into a glass that's too small. Nobody has asked whether the glass itself needs to grow.</div>
+    </div>
+    <div class="takeaway"><div class="ti">💡</div><div><div class="tlabel">The Takeaway</div><div class="ttext">The industry has been treating the symptom. Nobody has been treating the root — the identity running the show the moment pressure arrives.</div></div></div>
+    <div class="cta"><div class="cta-ey">Your next step</div><div class="cta-t">Join The Unmuted Voice Challenge</div><div class="cta-sub">Only $37/month · Cancel anytime</div><a href="https://www.skool.com/zenfluent-inner-circle/about" target="_blank" class="cta-a">Join Now →</a></div>
+    <div class="snav"><button class="bback" onclick="goTo('overview')">← Overview</button><button class="bnext" onclick="goTo('why')">02 Two Operating Systems →</button></div>
+  </div></div>
+</div>
+
+<!-- SECTION 2 — TWO OPERATING SYSTEMS -->
+<div id="page-why" class="page">
+  <div class="wrap"><div class="body">
+    <div class="badge"><div class="bnum">02</div><div class="blabel">Section 02</div></div>
+    <div class="stitle">The two operating systems <span class="hl">running your voice.</span></div>
+    <div class="ssub">Nobody explained this in English class. And it's the most important thing you'll ever hear about communication.</div>
+
+    <div class="dcard" style="padding:24px;align-items:stretch;">
+      <div class="d1-wrap">
+        <div class="d1-card d1-auth">
+          <div class="d1-badge" style="background:linear-gradient(135deg,#f97316,#a855f7);color:#fff;">OS 1</div>
+          <div class="d1-tag" style="background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">The Thinking Brain</div>
+          <div class="d1-quote" style="color:var(--navy);">This is the part of you that is articulate, intelligent, prepared. It holds your vocabulary. It organizes your thoughts. It knows your content. It's the version of you that speaks well in relaxed conversations.</div>
+          <div class="d1-foot" style="background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">works great when you feel safe</div>
+        </div>
+        <div class="d1-card d1-surv">
+          <div class="d1-badge" style="background:rgba(30,27,46,.07);color:var(--muted);">OS 2</div>
+          <div class="d1-tag" style="color:var(--muted);">The Survival Brain</div>
+          <div class="d1-quote" style="color:var(--muted);">This is older. Faster. And it has one job — to protect you from threat. It doesn't know the difference between a lion and a boardroom. It just knows: danger. And when it decides there's danger? It takes over.</div>
+          <div class="d1-foot" style="color:rgba(30,27,46,.25);">takes over under pressure</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bullets">
+      <div class="bl"><div class="bsq"></div>Under normal conditions, your Thinking Brain is in charge — clear, confident, yourself. But the moment your Survival Brain detects a threat, it hits a switch. It floods your body with stress hormones. And your Thinking Brain, the one with all the words and all the preparation, goes partially offline.</div>
+      <div class="bl"><div class="bsq"></div>Your vocabulary didn't disappear. Your Thinking Brain just got knocked out of the driver's seat at the exact moment you needed it most. This is not a language problem. This is a brain architecture problem — and it happens to everyone, in their native language too.</div>
+      <div class="bl"><div class="bsq"></div>But when English is your second language, the Survival Brain has even more ammunition. Because somewhere along the way, it stored something: every correction that stung, every blank moment, every room where speaking English felt dangerous. It's still running those files today.</div>
+    </div>
+    <div class="takeaway"><div class="ti">💡</div><div><div class="tlabel">The Takeaway</div><div class="ttext">You didn't choose to go blank. Your nervous system did. The Survival Brain fired before you could stop it — and it will keep firing until the identity underneath it changes.</div></div></div>
+    <div class="cta"><div class="cta-ey">Your next step</div><div class="cta-t">Join The Unmuted Voice Challenge</div><div class="cta-sub">Only $37/month · Cancel anytime</div><a href="https://www.skool.com/zenfluent-inner-circle/about" target="_blank" class="cta-a">Join Now →</a></div>
+    <div class="snav"><button class="bback" onclick="goTo('problem')">← The Industry</button><button class="bnext" onclick="goTo('identities')">03 The Real Problem →</button></div>
+  </div></div>
+</div>
+
+<!-- SECTION 3 — THE REAL PROBLEM / PHARMACY -->
+<div id="page-identities" class="page">
+  <div class="wrap"><div class="body">
+    <div class="badge"><div class="bnum">03</div><div class="blabel">Section 03</div></div>
+    <div class="stitle">You go to the pharmacy with a headache. <span class="hl">They hand you a painkiller.</span></div>
+    <div class="ssub">Every week. Same headache. Nobody ever asks why you keep getting it.</div>
+
+    <div class="dcard" style="padding:36px 24px;flex-direction:column;gap:12px;">
+      <div class="d2-wrap" id="pipeWrap">
+        <div class="d2-node" id="n0">High-stakes room</div>
+        <div class="d2-conn"><div class="d2-dot" style="animation-delay:0s"></div></div>
+        <div class="d2-node" id="n1">Survival brain fires</div>
+        <div class="d2-conn"><div class="d2-dot" style="animation-delay:.4s"></div></div>
+        <div class="d2-node" id="n2">Old identity takes over</div>
+        <div class="d2-conn"><div class="d2-dot" style="animation-delay:.8s"></div></div>
+        <div class="d2-node" id="n3">Words vanish. Point gets lost.</div>
+      </div>
+      <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;text-align:center;margin-top:8px;">The vocabulary was never missing. The identity took over.</div>
+    </div>
+
+    <div class="bullets">
+      <div class="bl"><div class="bsq"></div>Your survival brain doesn't know the difference between a lion and a boardroom. It just knows: danger. And a high-stakes meeting absolutely counts as a threat to this part of your brain.</div>
+      <div class="bl"><div class="bsq"></div>Every time you felt embarrassed speaking English. Every correction that stung. Every moment you went blank while everyone was watching. Your brain filed all of that under: high stakes + English = threat. It's still running that file today.</div>
+      <div class="bl"><div class="bsq"></div>You weren't failing in that moment. You were being protected from an old threat by a brain that never got told the threat was gone. The vocabulary didn't disappear. The identity just took the wheel.</div>
+    </div>
+    <div class="takeaway"><div class="ti">💡</div><div><div class="tlabel">The Takeaway</div><div class="ttext">This is not a language problem. It's an identity problem. The person who collapses under pressure has a survival identity still doing exactly what it was trained to do.</div></div></div>
+    <div class="cta"><div class="cta-ey">Your next step</div><div class="cta-t">Join The Unmuted Voice Challenge</div><div class="cta-sub">Only $37/month · Cancel anytime</div><a href="https://www.skool.com/zenfluent-inner-circle/about" target="_blank" class="cta-a">Join Now →</a></div>
+    <div class="snav"><button class="bback" onclick="goTo('why')">← Two Operating Systems</button><button class="bnext" onclick="goTo('start')">04 Where To Start →</button></div>
+  </div></div>
+</div>
+
+<!-- SECTION 4 — WHERE TO START -->
+<div id="page-start" class="page">
+  <div class="wrap"><div class="body">
+    <div class="badge"><div class="bnum">04</div><div class="blabel">Section 04</div></div>
+    <div class="stitle">The right place <span class="hl">to start.</span></div>
+    <div class="ssub">If you've spent years working on your English and still feel like something is blocking you in the moments that count — you were not doing anything wrong. You were just solving the wrong layer of the problem.</div>
+
+    <!-- Three realizations -->
+    <div class="dcard" style="padding:24px 20px;align-items:stretch;flex-direction:column;gap:10px;min-height:auto;">
+      <div style="font-family:'Space Mono',monospace;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;">Here's what was actually happening</div>
+      <div style="display:flex;flex-direction:column;gap:2px;">
+        <div style="display:grid;grid-template-columns:32px 1fr;gap:12px;align-items:start;padding:14px 16px;background:var(--bg);border-radius:8px 8px 2px 2px;border:1px solid var(--border);">
+          <div style="font-size:18px;margin-top:1px;">📁</div>
+          <div>
+            <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px;">Why you go blank in meetings</div>
+            <div style="font-size:13px;color:var(--muted);line-height:1.6;font-weight:400;">Your Survival Brain decided that moment was dangerous — based on old files it never had a chance to delete. Not weak English. Old threat files still running.</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:32px 1fr;gap:12px;align-items:start;padding:14px 16px;background:var(--bg);border-radius:2px;border:1px solid var(--border);border-top:none;">
+          <div style="font-size:18px;margin-top:1px;">🌡️</div>
+          <div>
+            <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px;">Why you hit a ceiling no matter how much you practice</div>
+            <div style="font-size:13px;color:var(--muted);line-height:1.6;font-weight:400;">Think of a thermostat set to 20°. The room warms up — but it always drifts back to 20. Your identity works the same way. Deep inside, you have a setting for who you believe you are as a communicator: <em>"I struggle under pressure. English is not really mine."</em> That's the thermostat. No matter how many skills you add on top, your behavior drifts back to that setting when things get hard. The thermostat was never updated to match who you've actually become. Skills can't override it. Only identity work can.</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:32px 1fr;gap:12px;align-items:start;padding:14px 16px;background:var(--bg);border-radius:2px 2px 8px 8px;border:1px solid var(--border);border-top:none;">
+          <div style="font-size:18px;margin-top:1px;">🥛</div>
+          <div>
+            <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px;">Why more courses haven't fully fixed it</div>
+            <div style="font-size:13px;color:var(--muted);line-height:1.6;font-weight:400;">They were teaching the water. More vocabulary, more frameworks, more techniques — poured into a glass that was too small to hold it under pressure. Nobody taught you how to build a bigger glass.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- What actually changes things -->
+    <div style="font-family:'Space Mono',monospace;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">What actually changes things</div>
+    <div class="bullets" style="margin-bottom:22px;">
+      <div class="bl"><div class="bsq"></div><div><strong style="font-weight:600;">Start with identity, not techniques.</strong> The thermostat — your internal setting for who you believe you are as a communicator — sets the ceiling. Raise that first, before adding more skills on top. More water into the same glass just overflows under pressure.</div></div>
+      <div class="bl"><div class="bsq"></div><div><strong style="font-weight:600;">Train the nervous system, not just the mind.</strong> Awareness alone is not enough. The body needs new patterns installed through repetition under real pressure. Understanding why you collapse is not the same as not collapsing.</div></div>
+      <div class="bl"><div class="bsq"></div><div><strong style="font-weight:600;">Use real life as the training ground.</strong> Practice rooms don't create the pressure that rewires the pattern. Real arenas do. The arena is the method. Drilling in comfort prepares you for conditions that don't exist.</div></div>
+    </div>
+
+    <div class="takeaway"><div class="ti">💡</div><div><div class="tlabel">The Takeaway</div><div class="ttext">You already have more than enough to say. You just need the container that's finally strong enough to let it out — with you, with your nervous system, with the identity layer underneath all the skills you already have.</div></div></div>
+    <div class="cta"><div class="cta-ey">Your next step</div><div class="cta-t">Join The Unmuted Voice Challenge</div><div class="cta-sub">Only $37/month · Cancel anytime</div><a href="https://www.skool.com/zenfluent-inner-circle/about" target="_blank" class="cta-a">Join Now →</a></div>
+    <div class="snav"><button class="bback" onclick="goTo('identities')">← The Real Problem</button></div>
+  </div></div>
+</div>
+
+<footer>
+  <div class="fcopy">© 2026 Zenfluent Maria. All rights reserved.</div>
+  <div class="faddr">No part of this material may be reproduced, shared, or distributed without written permission.</div>
+</footer>
+
+<script>
+const ORDER=['overview','problem','why','identities','start'];
+function goTo(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach((b,i)=>b.classList.toggle('active',ORDER[i]===id));
+  document.getElementById('page-'+id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(id==='identities') startPipe();
+}
+let pIv=null;
+function startPipe(){
+  clearInterval(pIv);
+  const nodes=[0,1,2,3].map(i=>document.getElementById('n'+i));
+  const bgs=['linear-gradient(135deg,#f97316,#fb923c)','linear-gradient(135deg,#fb923c,#ec4899)',
+             'linear-gradient(135deg,#ec4899,#a855f7)','linear-gradient(135deg,#a855f7,#7c3aed)'];
+  let cur=0;
+  function activate(i){
+    nodes.forEach((n,j)=>{
+      if(j===i){n.classList.add('active');n.style.background=bgs[j];}
+      else{n.classList.remove('active');n.style.background='';}
+    });
+  }
+  activate(0);
+  pIv=setInterval(()=>{cur=(cur+1)%4;activate(cur);},1400);
+}
+</script>
+</body>
+</html>
